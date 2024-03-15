@@ -21,28 +21,21 @@ class MachineRepository extends ServiceEntityRepository
         parent::__construct($registry, Machine::class);
     }
 
-    //    /**
-    //     * @return Machine[] Returns an array of Machine objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('m')
-    //            ->andWhere('m.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('m.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function sortAsc(Machine $machineFirst, Machine $machineSecond)
+    {
+        if ($machineFirst->getProcessors() == $machineSecond->getProcessors())
+        {
+            return $machineFirst->getMemory() <=> $machineSecond->getMemory();
+        }
+        return $machineFirst->getProcessors() <=> $machineSecond->getProcessors();
+    }
 
-    //    public function findOneBySomeField($value): ?Machine
-    //    {
-    //        return $this->createQueryBuilder('m')
-    //            ->andWhere('m.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    public function sortDesc(Machine $machineFirst, Machine $machineSecond)
+    {
+        if ($machineSecond->getProcessors() == $machineFirst->getProcessors())
+        {
+            return $machineSecond->getMemory() <=> $machineFirst->getMemory();
+        }
+        return $machineSecond->getProcessors() <=> $machineFirst->getProcessors();
+    }
 }

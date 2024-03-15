@@ -21,28 +21,21 @@ class ProcessRepository extends ServiceEntityRepository
         parent::__construct($registry, Process::class);
     }
 
-    //    /**
-    //     * @return Process[] Returns an array of Process objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('p')
-    //            ->andWhere('p.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('p.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function sortAsc(Process $processFirst, Process $processSecond)
+    {
+        if ($processFirst->getRequiredProcessors() == $processSecond->getRequiredProcessors())
+        {
+            return $processFirst->getRequiredMemory() <=> $processSecond->getRequiredMemory();
+        }
+        return $processFirst->getRequiredProcessors() <=> $processSecond->getRequiredProcessors();
+    }
 
-    //    public function findOneBySomeField($value): ?Process
-    //    {
-    //        return $this->createQueryBuilder('p')
-    //            ->andWhere('p.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    public function sortDesc(Process $processFirst, Process $processSecond)
+    {
+        if ($processSecond->getRequiredProcessors() == $processFirst->getRequiredProcessors())
+        {
+            return $processSecond->getRequiredMemory() <=> $processFirst->getRequiredMemory();
+        }
+        return $processSecond->getRequiredProcessors() <=> $processFirst->getRequiredProcessors();
+    }
 }

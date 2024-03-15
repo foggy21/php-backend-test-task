@@ -13,9 +13,14 @@ class MainController extends AbstractController
     #[Route('/', name: 'app_main')]
     public function index(MachineRepository $machineRepository, ProcessRepository $processRepository): Response
     {
+        $machines = $machineRepository->findAll();
+        $processes = $processRepository->findAll();
+        usort($machines, [$machineRepository, 'sortDesc']);
+        usort($processes, [$processRepository, 'sortAsc']);
+
         return $this->render('main/index.html.twig', [
-            'machines' => $machineRepository->findAll(),
-            'processes' => $processRepository->findAll(),
+            'machines' => $machines,
+            'processes' => $processes,
         ]);
     }
 }
