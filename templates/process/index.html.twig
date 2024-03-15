@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Process index{% endblock %}
+
+{% block body %}
+    <h1>Process index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Required_memory</th>
+                <th>Required_processors</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for process in processes %}
+            <tr>
+                <td>{{ process.id }}</td>
+                <td>{{ process.name }}</td>
+                <td>{{ process.requiredMemory }}</td>
+                <td>{{ process.requiredProcessors }}</td>
+                <td>
+                    <a href="{{ path('app_process_show', {'id': process.id}) }}">show</a>
+                    <a href="{{ path('app_process_edit', {'id': process.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_process_new') }}">Create new</a>
+{% endblock %}
