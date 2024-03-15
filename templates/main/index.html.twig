@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Общий список | Main{% endblock %}
+
+{% block body %}
+<style>
+    .header-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .main-wrapper { display: flex; justify-content: space-between; margin: 1em auto; max-width: 800px; width: 95%;}
+</style>
+
+<div class="header-wrapper">
+    <h1>Общий список машин и процессов ✅</h1>
+</div>
+
+<div class="main-wrapper">
+    <div>
+        <p>Список всех машин:</p>
+        {% for machine in machines %}
+            Имя машины: {{machine.name}}<br>
+            Оставшиеся процессоры: {{machine.processors}}<br>
+            Оставшаяся память: {{machine.memory}}<br><br>
+        {% endfor %}
+        <a href="{{path ('app_machine_index')}}">Настройка машин</a>
+    </div>
+    <div>
+        <p>Список всех процессов:</p>
+        {% for process in processes %}
+            Имя процесса: {{process.name}}<br>
+            {% if process.machine %}
+                Обрабатывается в машине: {{process.machine.name}}<br>
+            {% endif %}
+            Запрашиваемые процессоры: {{process.requiredProcessors}}<br>
+            Запрашиваемая память: {{process.requiredMemory}}<br><br>
+        {% endfor %}
+        <a href="{{path ('app_process_index')}}">Настройка процессов</a>
+    </div>
+</div>
+{% endblock %}
