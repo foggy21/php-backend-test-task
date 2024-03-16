@@ -35,7 +35,7 @@ class MachineRepository extends ServiceEntityRepository
         return $machines;
     }
 
-    public function sortByAsc(Machine $machineFirst, Machine $machineSecond)
+    private function sortByAsc(Machine $machineFirst, Machine $machineSecond)
     {
         if ($machineFirst->getProcessors() == $machineSecond->getProcessors())
         {
@@ -44,7 +44,7 @@ class MachineRepository extends ServiceEntityRepository
         return $machineFirst->getProcessors() <=> $machineSecond->getProcessors();
     }
 
-    public function sortByDesc(Machine $machineFirst, Machine $machineSecond)
+    private function sortByDesc(Machine $machineFirst, Machine $machineSecond)
     {
         if ($machineSecond->getProcessors() == $machineFirst->getProcessors())
         {

@@ -35,7 +35,7 @@ class ProcessRepository extends ServiceEntityRepository
         return $processes;
     }
 
-    public function sortByAsc(Process $processFirst, Process $processSecond)
+    private function sortByAsc(Process $processFirst, Process $processSecond)
     {
         if ($processFirst->getRequiredProcessors() == $processSecond->getRequiredProcessors())
         {
@@ -44,7 +44,7 @@ class ProcessRepository extends ServiceEntityRepository
         return $processFirst->getRequiredProcessors() <=> $processSecond->getRequiredProcessors();
     }
 
-    public function sortByDesc(Process $processFirst, Process $processSecond)
+    private function sortByDesc(Process $processFirst, Process $processSecond)
     {
         if ($processSecond->getRequiredProcessors() == $processFirst->getRequiredProcessors())
         {
