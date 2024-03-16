@@ -19,6 +19,8 @@
             Имя машины: {{machine.name}}<br>
             Оставшиеся процессоры: {{machine.processors}}<br>
             Оставшаяся память: {{machine.memory}}<br><br>
+        {% else %}
+            Нет списка машин<br>
         {% endfor %}
         <a href="{{path ('app_machine_index')}}">Настройка машин</a>
     </div>
@@ -31,6 +33,8 @@
             {% endif %}
             Запрашиваемые процессоры: {{process.requiredProcessors}}<br>
             Запрашиваемая память: {{process.requiredMemory}}<br><br>
+        {% else %}
+            Нет списка процессов<br>
         {% endfor %}
         <a href="{{path ('app_process_index')}}">Настройка процессов</a>
     </div>

@@ -21,7 +21,21 @@ class ProcessRepository extends ServiceEntityRepository
         parent::__construct($registry, Process::class);
     }
 
-    public function sortAsc(Process $processFirst, Process $processSecond)
+    public function findAllAndSortByAsc()
+    {
+        $processes = $this->findAll();
+        usort($processes, [$this, 'sortByAsc']);
+        return $processes;
+    }
+
+    public function findAllAndSortByDesc()
+    {
+        $processes = $this->findAll();
+        usort($processes, [$this, 'sortByDesc']);
+        return $processes;
+    }
+
+    public function sortByAsc(Process $processFirst, Process $processSecond)
     {
         if ($processFirst->getRequiredProcessors() == $processSecond->getRequiredProcessors())
         {
@@ -30,7 +44,7 @@ class ProcessRepository extends ServiceEntityRepository
         return $processFirst->getRequiredProcessors() <=> $processSecond->getRequiredProcessors();
     }
 
-    public function sortDesc(Process $processFirst, Process $processSecond)
+    public function sortByDesc(Process $processFirst, Process $processSecond)
     {
         if ($processSecond->getRequiredProcessors() == $processFirst->getRequiredProcessors())
         {

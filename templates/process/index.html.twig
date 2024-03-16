@@ -23,17 +23,18 @@
                 <td>{{ process.requiredMemory }}</td>
                 <td>{{ process.requiredProcessors }}</td>
                 <td>
-                    <a href="{{ path('app_process_show', {'id': process.id}) }}">show</a>
-                    <a href="{{ path('app_process_edit', {'id': process.id}) }}">edit</a>
+                    <a href="{{ path('app_process_show', {'id': process.id}) }}">Показать данные</a>
+                    <a href="{{ path('app_process_edit', {'id': process.id}) }}">Редактировать</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="5">no records found</td>
+                <td colspan="5">Нет списка процессов</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_process_new') }}">Create new</a>
+    <a href="{{ path('app_process_new') }}">Создать новый процесс</a><br><br>
+    <a href="{{ path('app_main')}}">Вернуться на главную страницу</a>
 {% endblock %}

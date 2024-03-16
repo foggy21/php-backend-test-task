@@ -21,7 +21,21 @@ class MachineRepository extends ServiceEntityRepository
         parent::__construct($registry, Machine::class);
     }
 
-    public function sortAsc(Machine $machineFirst, Machine $machineSecond)
+    public function findAllAndSortByAsc()
+    {
+        $machines = $this->findAll();
+        usort($machines, [$this, 'sortByAsc']);
+        return $machines;
+    }
+
+    public function findAllAndSortByDesc()
+    {
+        $machines = $this->findAll();
+        usort($machines, [$this, 'sortByDesc']);
+        return $machines;
+    }
+
+    public function sortByAsc(Machine $machineFirst, Machine $machineSecond)
     {
         if ($machineFirst->getProcessors() == $machineSecond->getProcessors())
         {
@@ -30,7 +44,7 @@ class MachineRepository extends ServiceEntityRepository
         return $machineFirst->getProcessors() <=> $machineSecond->getProcessors();
     }
 
-    public function sortDesc(Machine $machineFirst, Machine $machineSecond)
+    public function sortByDesc(Machine $machineFirst, Machine $machineSecond)
     {
         if ($machineSecond->getProcessors() == $machineFirst->getProcessors())
         {
