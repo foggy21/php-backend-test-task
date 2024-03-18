@@ -30,6 +30,8 @@ class MachineController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $machine->setAvailableMemory($machine->getMemory());
+            $machine->setAvailableProcessors($machine->getProcessors());
             $entityManager->persist($machine);
             $entityManager->flush();
 
@@ -57,6 +59,8 @@ class MachineController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $machine->setAvailableMemory($machine->getMemory());
+            $machine->setAvailableProcessors($machine->getProcessors());
             $entityManager->flush();
 
             return $this->redirectToRoute('app_machine_index', [], Response::HTTP_SEE_OTHER);

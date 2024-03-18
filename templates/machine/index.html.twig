@@ -12,6 +12,8 @@
                 <th>Name</th>
                 <th>Memory</th>
                 <th>Processors</th>
+                <th>Available Memory</th>
+                <th>Available Processors</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -22,6 +24,8 @@
                 <td>{{ machine.name }}</td>
                 <td>{{ machine.memory }}</td>
                 <td>{{ machine.processors }}</td>
+                <td>{{ machine.availableMemory }}</td>
+                <td>{{ machine.availableProcessors }}</td>
                 <td>
                     <a href="{{ path('app_machine_show', {'id': machine.id}) }}">Показать данные</a>
                     <a href="{{ path('app_machine_edit', {'id': machine.id}) }}">Редактировать</a>

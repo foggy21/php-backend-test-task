@@ -17,8 +17,8 @@
         <p>Список всех машин:</p>
         {% for machine in machines %}
             Имя машины: {{machine.name}}<br>
-            Оставшиеся процессоры: {{machine.processors}}<br>
-            Оставшаяся память: {{machine.memory}}<br><br>
+            Оставшиеся процессоры: {{machine.processors}}/{{machine.availableProcessors}}<br>
+            Оставшаяся память: {{machine.memory}}/{{machine.availableMemory}}<br><br>
         {% else %}
             Нет списка машин<br>
         {% endfor %}

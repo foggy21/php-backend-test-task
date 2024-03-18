@@ -21,21 +21,60 @@ class MachineRepository extends ServiceEntityRepository
         parent::__construct($registry, Machine::class);
     }
 
-    public function findAllAndSortByAsc()
+    public function findAllAndSortProcessorsByAsc(): array
     {
         $machines = $this->findAll();
-        usort($machines, [$this, 'sortByAsc']);
+        usort($machines, [$this, 'sortProcessorsByAsc']);
         return $machines;
     }
 
-    public function findAllAndSortByDesc()
+    public function findAllAndSortProcessorsByDesc(): array
     {
         $machines = $this->findAll();
-        usort($machines, [$this, 'sortByDesc']);
+        usort($machines, [$this, 'sortProcessorsByDesc']);
         return $machines;
     }
 
-    private function sortByAsc(Machine $machineFirst, Machine $machineSecond)
+    public function findAllAndSortMemoryByAsc(): array
+    {
+        $machines = $this->findAll();
+        usort($machines, [$this, 'sortMemoryByAsc']);
+        return $machines;
+    }
+
+    public function findAllAndSortMemoryByDesc(): array
+    {
+        $machines = $this->findAll();
+        usort($machines, [$this, 'sortMemoryByDesc']);
+        return $machines;
+    }
+
+    public function updateMemoryAndProcessorsToAvailable(): bool 
+    {
+        return $this->updateMemoryToAvailable() && $this->updateProcessorsToAvailable();
+    }
+
+    private function updateMemoryToAvailable(): bool
+    {
+        return $this->createQueryBuilder('e')
+                    ->update()
+                    ->set('e.memory', 'e.available_memory')
+                    ->getQuery()
+                    ->execute()
+        ;
+    }
+
+    private function updateProcessorsToAvailable(): bool
+    {
+        return $this->createQueryBuilder('e')
+                    ->update()
+                    ->set('e.processors', 'e.available_processors')
+                    ->getQuery()
+                    ->execute()
+        ;
+    }
+
+    private function sortProcessorsByAsc(Machine $machineFirst, Machine $machineSecond)
     {
         if ($machineFirst->getProcessors() == $machineSecond->getProcessors())
         {
@@ -44,12 +83,30 @@ class MachineRepository extends ServiceEntityRepository
         return $machineFirst->getProcessors() <=> $machineSecond->getProcessors();
     }
 
-    private function sortByDesc(Machine $machineFirst, Machine $machineSecond)
+    private function sortProcessorsByDesc(Machine $machineFirst, Machine $machineSecond)
     {
         if ($machineSecond->getProcessors() == $machineFirst->getProcessors())
         {
             return $machineSecond->getMemory() <=> $machineFirst->getMemory();
         }
         return $machineSecond->getProcessors() <=> $machineFirst->getProcessors();
+    }
+
+    private function sortMemoryByAsc(Machine $machineFirst, Machine $machineSecond)
+    {
+        if ($machineFirst->getMemory() == $machineSecond->getMemory())
+        {
+            return $machineFirst->getProcessors() <=> $machineSecond->getProcessors();
+        }
+        return $machineFirst->getMemory() <=> $machineSecond->getMemory();
+    }
+
+    private function sortMemoryByDesc(Machine $machineFirst, Machine $machineSecond)
+    {
+        if ($machineSecond->getMemory() == $machineFirst->getMemory())
+        {
+            return $machineSecond->getProcessors() <=> $machineFirst->getProcessors();
+        }
+        return $machineSecond->getMemory() <=> $machineFirst->getMemory();
     }
 }

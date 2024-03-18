@@ -23,7 +23,7 @@ class Process
     private ?int $required_processors = null;
 
     #[ORM\ManyToOne(targetEntity: Machine::class)]
-    #[ORM\JoinColumn(name: 'machine_id', referencedColumnName: 'id')]
+    #[ORM\JoinColumn(name: 'machine_id', referencedColumnName: 'id', onDelete: "SET NULL")]
     private Machine|null $machine = null;
 
     public function getId(): ?int
@@ -74,6 +74,8 @@ class Process
 
     public function setMachine(Machine $machine): static
     {
+        $machine->setProcessors($machine->getProcessors()-$this->getRequiredProcessors());
+        $machine->setMemory($machine->getMemory()-$this->getRequiredMemory());
         $this->machine = $machine;
 
         return $this;
