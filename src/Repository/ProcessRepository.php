@@ -21,41 +21,57 @@ class ProcessRepository extends ServiceEntityRepository
         parent::__construct($registry, Process::class);
     }
 
-    public function findAllAndSortRequiredProcessorsByAsc()
+    public function findAllAndSortRequiredProcessorsByAsc(): ?array
     {
         $processes = $this->findAll();
-        usort($processes, [$this, 'sortRequiredProcessorsByAsc']);
-        return $processes;
+        if ($processes)
+        {
+            usort($processes, [$this, 'sortRequiredProcessorsByAsc']);
+            return $processes;
+        }
+        return null;
     }
 
-    public function findAllAndSortRequiredProcessorsByDesc()
+    public function findAllAndSortRequiredProcessorsByDesc(): ?array
     {
         $processes = $this->findAll();
-        usort($processes, [$this, 'sortRequiredProcessorsByDesc']);
-        return $processes;
+        if ($processes)
+        {
+            usort($processes, [$this, 'sortRequiredProcessorsByDesc']);
+            return $processes;
+        }
+        return null;
     }
 
-    public function findAllAndSortRequiredMemoryByAsc()
+    public function findAllAndSortRequiredMemoryByAsc(): ?array
     {
         $processes = $this->findAll();
-        usort($processes, [$this, 'sortRequiredMemoryByAsc']);
-        return $processes;
+        if ($processes)
+        {
+            usort($processes, [$this, 'sortRequiredMemoryByAsc']);
+            return $processes;
+        }
+        return null;
     }
 
-    public function findAllAndSortRequiredMemoryByDesc()
+    public function findAllAndSortRequiredMemoryByDesc(): ?array
     {
         $processes = $this->findAll();
-        usort($processes, [$this, 'sortRequiredMemoryByDesc']);
-        return $processes;
+        if ($processes)
+        {
+            usort($processes, [$this, 'sortRequiredMemoryByDesc']);
+            return $processes;
+        }
+        return null;
     }
 
 
     public function getNullMachineSortedRequiredProcessorsByAsc() : ?Process
     {
         $processes = $this->findByNullMachine();
-        usort($processes, [$this, 'sortRequiredProcessorsByAsc']);
         if ($processes)
         {
+            usort($processes, [$this, 'sortRequiredProcessorsByAsc']);
             return $processes[0];
         }
         return null;
@@ -64,32 +80,33 @@ class ProcessRepository extends ServiceEntityRepository
     public function getNullMachineSortedRequiredMemoryByAsc() : ?Process
     {
         $processes = $this->findByNullMachine();
-        usort($processes, [$this, 'sortRequiredMemoryByAsc']);
         if ($processes)
         {
+            usort($processes, [$this, 'sortRequiredMemoryByAsc']);
             return $processes[0];
         }
         return null;
     }
 
-    public function updateMachineToNull() : int
+    public function updateMachinesToNull() : void
     {
-        return $this->createQueryBuilder('e')
-                    ->update()
-                    ->set('e.machine', 'NULL')
-                    ->where('e.machine IS NOT NULL')
-                    ->getQuery()
-                    ->execute()
+        $this->createQueryBuilder('e')
+            ->update()
+            ->set('e.machine', 'NULL')
+            ->where('e.machine IS NOT NULL')
+            ->getQuery()
+            ->execute()
         ;
     }
 
-    private function findByNullMachine() : array
+    private function findByNullMachine() : ?array
     {
-        return $this->createQueryBuilder('e')
-                    ->andWhere('e.machine IS NULL')
-                    ->getQuery()
-                    ->getResult()
+        $processes = $this->createQueryBuilder('e')
+                        ->andWhere('e.machine IS NULL')
+                        ->getQuery()
+                        ->getResult()
         ;
+        return $processes != [] ? $processes : null;
     }
 
     private function sortRequiredProcessorsByAsc(Process $processFirst, Process $processSecond)

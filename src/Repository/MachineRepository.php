@@ -21,57 +21,77 @@ class MachineRepository extends ServiceEntityRepository
         parent::__construct($registry, Machine::class);
     }
 
-    public function findAllAndSortProcessorsByAsc(): array
+    public function findAllAndSortProcessorsByAsc(): ?array
     {
         $machines = $this->findAll();
-        usort($machines, [$this, 'sortProcessorsByAsc']);
-        return $machines;
+        if ($machines)
+        {
+            usort($machines, [$this, 'sortProcessorsByAsc']);
+            return $machines;
+        }
+        return null;
     }
 
-    public function findAllAndSortProcessorsByDesc(): array
+    public function findAllAndSortProcessorsByDesc(): ?array
     {
         $machines = $this->findAll();
-        usort($machines, [$this, 'sortProcessorsByDesc']);
-        return $machines;
+        if ($machines) 
+        {
+            usort($machines, [$this, 'sortProcessorsByDesc']);
+            return $machines;
+        }
+        return null;
     }
 
-    public function findAllAndSortMemoryByAsc(): array
+    public function findAllAndSortMemoryByAsc(): ?array
     {
         $machines = $this->findAll();
-        usort($machines, [$this, 'sortMemoryByAsc']);
-        return $machines;
+        if ($machines)
+        {
+            usort($machines, [$this, 'sortMemoryByAsc']);
+            return $machines;
+        }
+        return null;
     }
 
-    public function findAllAndSortMemoryByDesc(): array
+    public function findAllAndSortMemoryByDesc(): ?array
     {
         $machines = $this->findAll();
-        usort($machines, [$this, 'sortMemoryByDesc']);
-        return $machines;
+        if ($machines)
+        {
+            usort($machines, [$this, 'sortMemoryByDesc']);
+            return $machines;
+        }
+        return null;
     }
 
-    public function updateMemoryAndProcessorsToAvailable(): bool 
+    public function updatePropertiesToAvailable(): void 
     {
-        return $this->updateMemoryToAvailable() && $this->updateProcessorsToAvailable();
+        $this->updateMemoryToAvailable()
+            ->updateProcessorsToAvailable()
+        ;
     }
 
-    private function updateMemoryToAvailable(): bool
+    private function updateMemoryToAvailable(): static
     {
-        return $this->createQueryBuilder('e')
+        $this->createQueryBuilder('e')
                     ->update()
                     ->set('e.memory', 'e.available_memory')
                     ->getQuery()
                     ->execute()
         ;
+        return $this;
     }
 
-    private function updateProcessorsToAvailable(): bool
+    private function updateProcessorsToAvailable(): static
     {
-        return $this->createQueryBuilder('e')
+        $this->createQueryBuilder('e')
                     ->update()
                     ->set('e.processors', 'e.available_processors')
                     ->getQuery()
                     ->execute()
         ;
+        return $this;
     }
 
     private function sortProcessorsByAsc(Machine $machineFirst, Machine $machineSecond)

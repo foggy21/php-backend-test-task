@@ -25,11 +25,10 @@ class MainController extends AbstractController
     {
         $this->updateEntitesToOriginal($machineRepository, $processRepository);
 
-        
         $machines = $machineRepository->findAllAndSortProcessorsByDesc();
         if ($machines) 
         {
-            $this->allocateProcessToMachineByProcess($machines, $processRepository);
+            $this->allocateProcessToMachineByProcessors($machines, $processRepository);
         }
 
         $machines = $machineRepository->findAllAndSortMemoryByDesc();
@@ -44,13 +43,14 @@ class MainController extends AbstractController
         ]);
     }
 
+    // Repositories return entities in database in original state.
     private function updateEntitesToOriginal(MachineRepository $machineRepository, ProcessRepository $processRepository)
     {
-        $processRepository->updateMachineToNull();
-        $machineRepository->updateMemoryAndProcessorsToAvailable();
+        $processRepository->updateMachinesToNull();
+        $machineRepository->updatePropertiesToAvailable();
     }
 
-    private function allocateProcessToMachineByProcess(array $machines, ProcessRepository $processRepository)
+    private function allocateProcessToMachineByProcessors(array $machines, ProcessRepository $processRepository)
     {
         foreach($machines as $machine)
         {
