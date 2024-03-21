@@ -65,7 +65,6 @@ class ProcessRepository extends ServiceEntityRepository
         return null;
     }
 
-
     public function getNullMachineSortedRequiredProcessorsByAsc() : ?Process
     {
         $processes = $this->findByNullMachine();

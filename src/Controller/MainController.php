@@ -44,13 +44,13 @@ class MainController extends AbstractController
     }
 
     // Repositories return entities in database in original state.
-    private function updateEntitesToOriginal(MachineRepository $machineRepository, ProcessRepository $processRepository)
+    private function updateEntitesToOriginal(MachineRepository $machineRepository, ProcessRepository $processRepository): void
     {
         $processRepository->updateMachinesToNull();
         $machineRepository->updatePropertiesToAvailable();
     }
 
-    private function allocateProcessToMachineByProcessors(array $machines, ProcessRepository $processRepository)
+    private function allocateProcessToMachineByProcessors(array $machines, ProcessRepository $processRepository): void
     {
         foreach($machines as $machine)
         {
@@ -61,7 +61,7 @@ class MainController extends AbstractController
         }
     }
 
-    private function allocateProcessToMachineByMemory(array $machines, ProcessRepository $processRepository)
+    private function allocateProcessToMachineByMemory(array $machines, ProcessRepository $processRepository): void
     {
         foreach($machines as $machine)
         {
@@ -72,7 +72,7 @@ class MainController extends AbstractController
         }
     }
 
-    private function allocateProcessToMachine(?Process $process, ?Machine $machine)
+    private function allocateProcessToMachine(?Process $process, ?Machine $machine): void
     {
         if ($machine && $process)
         {
