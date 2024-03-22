@@ -24,18 +24,10 @@ class MainController extends AbstractController
     public function index(MachineRepository $machineRepository, ProcessRepository $processRepository): Response
     {
         $this->updateEntitesToOriginal($machineRepository, $processRepository);
+        
+        $this->allocateProcessToMachineByProcessors($machineRepository, $processRepository);
 
-        $machines = $machineRepository->findAllAndSortProcessorsByDesc();
-        if ($machines) 
-        {
-            $this->allocateProcessToMachineByProcessors($machines, $processRepository);
-        }
-
-        $machines = $machineRepository->findAllAndSortMemoryByDesc();
-        if ($machines)
-        {
-            $this->allocateProcessToMachineByMemory($machines, $processRepository);
-        }
+        $this->allocateProcessToMachineByMemory($machineRepository, $processRepository);
         
         return $this->render('main/index.html.twig', [
             'machines' => $machineRepository->findAllAndSortProcessorsByDesc(),
@@ -50,24 +42,28 @@ class MainController extends AbstractController
         $machineRepository->updatePropertiesToAvailable();
     }
 
-    private function allocateProcessToMachineByProcessors(array $machines, ProcessRepository $processRepository): void
+    private function allocateProcessToMachineByProcessors(MachineRepository $machineRepository, ProcessRepository $processRepository): void
     {
-        foreach($machines as $machine)
+        $machines = $machineRepository->findAllAndSortProcessorsByDesc();
+        if ($machines)
         {
-            while($this->machineIsSuitableForProcessRequirements($machine, $process = $processRepository->getNullMachineSortedRequiredProcessorsByAsc())) 
+            while($this->machineIsSuitableForProcessRequirements($machines[0], $process = $processRepository->getNullMachineSortedRequiredProcessorsByAsc())) 
             {
-                $this->allocateProcessToMachine($process, $machine);
+                $this->allocateProcessToMachine($process, $machines[0]);
+                $machines = $machineRepository->findAllAndSortProcessorsByDesc();
             }
         }
     }
 
-    private function allocateProcessToMachineByMemory(array $machines, ProcessRepository $processRepository): void
+    private function allocateProcessToMachineByMemory(MachineRepository $machineRepository, ProcessRepository $processRepository): void
     {
-        foreach($machines as $machine)
+        $machines = $machineRepository->findAllAndSortMemoryByDesc();
+        if ($machines)
         {
-            while($this->machineIsSuitableForProcessRequirements($machine, $process = $processRepository->getNullMachineSortedRequiredMemoryByAsc())) 
+            while($this->machineIsSuitableForProcessRequirements($machines[0], $process = $processRepository->getNullMachineSortedRequiredMemoryByAsc())) 
             {
-                $this->allocateProcessToMachine($process, $machine);
+                $this->allocateProcessToMachine($process, $machines[0]);
+                $machines = $machineRepository->findAllAndSortMemoryByDesc();
             }
         }
     }
