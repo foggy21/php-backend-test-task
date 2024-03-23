@@ -32,39 +32,6 @@ class ProcessRepository extends ServiceEntityRepository
         return null;
     }
 
-    public function findAllAndSortRequiredProcessorsByDesc(): ?array
-    {
-        $processes = $this->findAll();
-        if ($processes)
-        {
-            usort($processes, [$this, 'sortRequiredProcessorsByDesc']);
-            return $processes;
-        }
-        return null;
-    }
-
-    public function findAllAndSortRequiredMemoryByAsc(): ?array
-    {
-        $processes = $this->findAll();
-        if ($processes)
-        {
-            usort($processes, [$this, 'sortRequiredMemoryByAsc']);
-            return $processes;
-        }
-        return null;
-    }
-
-    public function findAllAndSortRequiredMemoryByDesc(): ?array
-    {
-        $processes = $this->findAll();
-        if ($processes)
-        {
-            usort($processes, [$this, 'sortRequiredMemoryByDesc']);
-            return $processes;
-        }
-        return null;
-    }
-
     public function getNullMachineSortedRequiredProcessorsByAsc() : ?Process
     {
         $processes = $this->findByNullMachine();
@@ -117,15 +84,6 @@ class ProcessRepository extends ServiceEntityRepository
         return $processFirst->getRequiredProcessors() <=> $processSecond->getRequiredProcessors();
     }
 
-    private function sortRequiredProcessorsByDesc(Process $processFirst, Process $processSecond)
-    {
-        if ($processSecond->getRequiredProcessors() == $processFirst->getRequiredProcessors())
-        {
-            return $processSecond->getRequiredMemory() <=> $processFirst->getRequiredMemory();
-        }
-        return $processSecond->getRequiredProcessors() <=> $processFirst->getRequiredProcessors();
-    }
-
     private function sortRequiredMemoryByAsc(Process $processFirst, Process $processSecond)
     {
         if ($processFirst->getRequiredMemory() == $processSecond->getRequiredMemory())
@@ -133,14 +91,5 @@ class ProcessRepository extends ServiceEntityRepository
             return $processFirst->getRequiredProcessors() <=> $processSecond->getRequiredProcessors();
         }
         return $processFirst->getRequiredMemory() <=> $processSecond->getRequiredMemory();
-    }
-
-    private function sortRequiredMemoryByDesc(Process $processFirst, Process $processSecond)
-    {
-        if ($processSecond->getRequiredMemory() == $processFirst->getRequiredMemory())
-        {
-            return $processSecond->getRequiredProcessors() <=> $processFirst->getRequiredProcessors();
-        }
-        return $processSecond->getRequiredMemory() <=> $processFirst->getRequiredMemory();
     }
 }

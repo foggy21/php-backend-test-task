@@ -21,34 +21,12 @@ class MachineRepository extends ServiceEntityRepository
         parent::__construct($registry, Machine::class);
     }
 
-    public function findAllAndSortProcessorsByAsc(): ?array
-    {
-        $machines = $this->findAll();
-        if ($machines)
-        {
-            usort($machines, [$this, 'sortProcessorsByAsc']);
-            return $machines;
-        }
-        return null;
-    }
-
     public function findAllAndSortProcessorsByDesc(): ?array
     {
         $machines = $this->findAll();
         if ($machines) 
         {
             usort($machines, [$this, 'sortProcessorsByDesc']);
-            return $machines;
-        }
-        return null;
-    }
-
-    public function findAllAndSortMemoryByAsc(): ?array
-    {
-        $machines = $this->findAll();
-        if ($machines)
-        {
-            usort($machines, [$this, 'sortMemoryByAsc']);
             return $machines;
         }
         return null;
@@ -94,15 +72,6 @@ class MachineRepository extends ServiceEntityRepository
         return $this;
     }
 
-    private function sortProcessorsByAsc(Machine $machineFirst, Machine $machineSecond)
-    {
-        if ($machineFirst->getProcessors() == $machineSecond->getProcessors())
-        {
-            return $machineFirst->getMemory() <=> $machineSecond->getMemory();
-        }
-        return $machineFirst->getProcessors() <=> $machineSecond->getProcessors();
-    }
-
     private function sortProcessorsByDesc(Machine $machineFirst, Machine $machineSecond)
     {
         if ($machineSecond->getProcessors() == $machineFirst->getProcessors())
@@ -110,15 +79,6 @@ class MachineRepository extends ServiceEntityRepository
             return $machineSecond->getMemory() <=> $machineFirst->getMemory();
         }
         return $machineSecond->getProcessors() <=> $machineFirst->getProcessors();
-    }
-
-    private function sortMemoryByAsc(Machine $machineFirst, Machine $machineSecond)
-    {
-        if ($machineFirst->getMemory() == $machineSecond->getMemory())
-        {
-            return $machineFirst->getProcessors() <=> $machineSecond->getProcessors();
-        }
-        return $machineFirst->getMemory() <=> $machineSecond->getMemory();
     }
 
     private function sortMemoryByDesc(Machine $machineFirst, Machine $machineSecond)
