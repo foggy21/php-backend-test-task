@@ -28,7 +28,6 @@
                 <td>{{ machine.availableProcessors }}</td>
                 <td>
                     <a href="{{ path('app_machine_show', {'id': machine.id}) }}">Показать данные</a>
-                    <a href="{{ path('app_machine_edit', {'id': machine.id}) }}">Редактировать</a>
                 </td>
             </tr>
         {% else %}
