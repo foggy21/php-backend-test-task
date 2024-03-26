@@ -22,7 +22,6 @@ class MachineRepositoryTest extends KernelTestCase
         $W10 = $machineRepository->findBy(["name" => "W10"]);
         $W8 = $machineRepository->findBy(["name" => "W8"]);
         $W7 = $machineRepository->findBy(["name" => "W7"]);
-        
         $differentProcessorsSort =  $reflectionSortDesc->invoke($machineRepository, $WVista[0], $W10[0]);
         $equalProcessorsSort = $reflectionSortDesc->invoke($machineRepository, $W8[0], $W7[0]);
 
